@@ -1,0 +1,95 @@
+% layout 'bootstrap';
+% title 'Login';
+<!-- LoginForm -->
+
+<%= form_for '/login' => (method => "post") => (class => "form-horizontal") => (id => "login-form") => begin %>
+<form>
+    <fieldset>
+        <div id="legend">
+            <legend class="">Login</legend>
+        </div>
+
+        <div class="control-group">
+            <!-- Username -->
+            <label class="control-label" for="username">Username</label>
+
+            <div class="controls">
+                <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Password</label>
+
+            <div class="controls">
+                <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- Button -->
+
+            <div class="controls">
+                <button class="btn btn-success">Login</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<% end %>
+<!-- /loginForm -->
+
+<!-- Validation with JqueryValidation Plugin -->
+
+<!-- Validate Plugin -->
+<script src="<%= url_for("/js/jquery.validate.min.js") %>"></script>
+
+<style>
+    label.valid {
+        width: 24px;
+        height: 24px;
+        background: url(img/valid.png) center center no-repeat;
+        display: inline-block;
+        text-indent: -9999px;
+    }
+    label.error {
+        font-weight: bold;
+        color: red;
+        padding: 2px 8px;
+        margin-top: 2px;
+    }
+</style>
+
+<script>
+    //Method to validate regexps that is not a built-in in the plugin
+    $.validator.addMethod(
+        "regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Invalid characters."
+    );
+
+    $(document).ready(function(){
+
+        $('#login-form').validate({
+            rules: {
+                username: {
+                    minlength: 2,
+                    required: true,
+                    regex: /^[\S]*$/ //Acá uso el método loco
+                },
+                password: {
+                required: true,
+                },
+            },
+            highlight: function(element) {
+                $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            success: function(element) {
+                element.text('OK!').addClass('valid').closest('.control-group').removeClass('error').addClass('success');
+            }
+        });
+    }); // end document.ready
+</script>

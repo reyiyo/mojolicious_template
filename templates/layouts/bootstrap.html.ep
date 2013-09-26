@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+     <title><%= title %></title>
+     <link rel="stylesheet" href="<%= url_for("/css/bootstrap.min.css") %>" />
+     <link rel="stylesheet" href="<%= url_for("/css/bootstrap-glyphicons.css") %>" />
+     <script language="javascript" src="<%= url_for("/js/jquery-1.9.1.min.js") %>"></script>
+     <script language="javascript" src="<%= url_for("/js/bootstrap.min.js") %>"></script>
+     <%= jquery_ajax_csrf_protection %>
+  </head>
+  <body>
+    <div class="container">
+       <!-- Header -->
+        <div id="top-nav" class="navbar navbarinverse navbar-static-top">
+          <a class="navbar-brand" href="#">Super Mojolicious Template</a>
+          <div class="nav-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav pull-right">
+               <li><a href="/logout" class="navbar-link">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- /Header -->
+        <!-- content -->
+        <!-- message popups -->
+
+        % content_for 'success_messages' => begin
+        % if ( defined($self->session->{success_messages}) && ( scalar( @{ $self->session->{success_messages}} ) > 0 ) ){
+
+            %foreach my $notice ( @{ $self->session->{success_messages}} ){
+                <div class="alert alert-success">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <p><%= $notice; %></p>
+                </div>
+            %}
+
+            %delete($self->session->{success_messages});
+        %}
+        %end
+
+        % content_for 'noticed_messages' => begin
+        % if ( defined($self->session->{notice_messages}) && ( scalar( @{ $self->session->{notice_messages}} ) > 0 ) ){
+
+            %foreach my $notice ( @{ $self->session->{notice_messages}} ){
+                <div class="alert alert-info">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <p><%= $notice; %></p>
+                </div>
+            %}
+
+            %delete($self->session->{notice_messages});
+        %}
+        %end
+
+        % content_for 'error_messages' => begin
+        % if ( defined($self->session->{error_messages}) && ( scalar( @{ $self->session->{error_messages}} ) > 0 ) ){
+            <div id="error-messages" class="error-messages">
+            %foreach my $error ( @{ $self->session->{error_messages}} ){
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <p><%= $error; %></p>
+                </div>
+            %}
+            %delete($self->session->{error_messages});
+        %}
+        %end
+
+        <%= content_for 'error_messages' %>
+        <%= content_for 'noticed_messages' %>
+        <%= content_for 'success_messages' %>
+
+        <!-- /message popups -->
+
+        <%= content %>
+        <!-- /content -->
+        <!-- Footer -->
+        <div id="bottom-nav" class="navbar navbar-fixed-bottom">
+            <p class="navbar-text pull-right">© <a href="http://www.exo.com.ar" class="navbar-link">Gente Grossa S.R.L.</a> 2013</p>
+        </div>
+        <!-- /Footer -->
+    </div>
+    <style>body { padding-bottom: 70px; }</style>
+  </body>
+</html>
