@@ -12,6 +12,8 @@ use English qw(-no_match_vars);
 package MojoliciousTemplate;
 use Mojo::Base 'Mojolicious';
 use MojoliciousTemplate::Configuration;
+use Mojolicious::Plugin::Authentication;
+use Mojolicious::Plugin::CouchdbAuth;
 
 # This method will run once at server start
 sub startup {
@@ -22,26 +24,21 @@ sub startup {
 
     $self->plugin('CSRFProtect');
 
-    $self->plugin('Mojolicious::Plugin::CouchdbAuth');
-    $self->static->paths->[0] = $self->home->rel_dir('public');
-
-    # Routes
-    my $r = $self->routes;
-
-    # Normal route to controller
-    $r->get('/')->to('login#login');
-    $r->any('/login')->to('login#login');
-    $r->get('/logout')->to('login#logout');
-
-    # Protected route to controller
-    my $logged_in = $r->under(
-        sub {
-            my $self = shift;
-            return $self->auth() || !$self->redirect_to('/login#login');
+    $self->plugin(
+        'authentication' => {
+            'autoload_user' => 1,
+            'session_key'   => MojoliciousTemplate::Configuration->instance->app_secret,
+            'load_user'     => \&Mojolicious::Plugin::CouchdbAuth::load_user,
+            'validate_user' => \&Mojolicious::Plugin::CouchdbAuth::validate_user,
         }
     );
 
+    $self->routes->post('/login')->to('login#login');
+
+    my $logged_in = $self->routes->bridge('/')->to('login#check');
+    $logged_in->any('/')->to('example#welcome');
     $logged_in->route('/welcome')->to('example#welcome');
+    $logged_in->route('/logout')->to('login#good_bye');
 }
 
 1;

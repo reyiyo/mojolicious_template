@@ -13,19 +13,22 @@ package MojoliciousTemplate::Login;
 use Mojo::Base 'Mojolicious::Controller';
 use utf8;
 
-sub login {
+sub check {
     my $self = shift;
 
-    if ( $self->auth() ) {
-        $self->redirect_to('welcome');
-    } else {
-        $self->render(template => 'login/login');
-    }
+    return 1 if $self->is_user_authenticated;
+    $self->render( template => 'login/login_form' ) and return 0;
 }
 
-sub logout {
+sub login {
     my $self = shift;
-    $self->session( expires => 1 );
+    $self->authenticate( $self->req->param('username'), $self->req->param('password') );
+    $self->redirect_to('/');
+}
+
+sub good_bye {
+    my $self = shift;
+    $self->logout;
     $self->redirect_to('/');
 }
 

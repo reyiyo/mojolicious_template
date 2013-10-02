@@ -18,6 +18,8 @@
 
 *   User Login with KiokuDB + CouchDB, with salted and hashed passwords.
 
+*   Authentication with Mojolicious::Plugin::Authentication.
+
 * * *
 
 ## Notice
@@ -35,7 +37,7 @@ Because this template is not official and can't guarantee quality.
 
 *   [CouchDB](http://couchdb.apache.org/) - Running on default settings localhost:5984 (but configurable)
 
-### 
+###
 
 ### Usage - start development
 
@@ -54,7 +56,7 @@ The "morbo" command is launching the "Mojo::Server::Morbo" daemon, with Applicat
  (["Mojo::Server::Morbo"](http://mojolicio.us/perldoc/Mojo/Server/Morbo) is a daemon for development. It is bundled with the Mojolicious framework.)
 
 Enjoy the web development! with perl + Mojolicious :)
-please see to: http://mojolicio.us/perldoc 
+please see to: http://mojolicio.us/perldoc
  ([Japanse translation](https://github.com/yuki-kimoto/mojolicious-guides-japanese/wiki))
 
 ### How to change the app name (example: "HogeHoge")
@@ -118,6 +120,11 @@ see wiki page: TBD
 Copyright © 2013 The Apache Software Foundation.
 Licensed under the [Apache License 2.0][6]
 
+###Mojolicious::Plugin::Authentication
+[http://search.cpan.org/~madcat/Mojolicious-Plugin-Authentication-1.26/lib/Mojolicious/Plugin/Authentication.pm][13]
+
+    This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.
+
 ### Bootstrap (Twitter Bootstrap)
 [https://github.com/twitter/bootstrap][7]
 
@@ -134,8 +141,8 @@ Licensed under the [Apache License 2.0][6]
 [http://glyphicons.com/][10]
 
 	GLYPHICONS FREE are released under the Creative Commons Attribution 3.0 Unported (CC BY 3.0).
-	The GLYPHICONS FREE can be used both commercially and for personal use, 
-	but you must always add a link to glyphicons.com in a prominent place (e.g. the footer of a website), 
+	The GLYPHICONS FREE can be used both commercially and for personal use,
+	but you must always add a link to glyphicons.com in a prominent place (e.g. the footer of a website),
 	include the CC-BY license and the reference to glyphicons.com on every page using GLYPHICONS.
 
 ## Authors and license
@@ -163,3 +170,4 @@ This template is free software; you can redistribute it and/or modify it under t
   [10]: http://glyphicons.com/
   [11]: https://github.com/mugifly/mojo_template
   [12]: https://github.com/tudorconstantin/Mojolicious-Boilerplate
+  [13]: http://search.cpan.org/~madcat/Mojolicious-Plugin-Authentication-1.26/lib/Mojolicious/Plugin/Authentication.pm
